@@ -32,9 +32,9 @@ console.log('örnek görev:', ilkiniDon(['as','sa'],function(metin){return metin
   1. skor1 ve skor2 arasındaki fark nedir?
   
   2. Hangisi bir closure kullanmaktadır? Nasıl tarif edebilirsin? (yarınki derste öğreneceksin :) )
-  
+  Skor 1 e dışardan erişilemezken Skor 2 ye dşardan erişilebilir.
   3. Hangi durumda skor1 tercih edilebilir? Hangi durumda skor2 daha mantıklıdır?
-*/
+retun ünde başka bir fonksiyon varsa o fonksiyon içerdeki variable ı kullanıyorsa clousere var yaşamaya devam ediyor.Veri gizliliği önemliyse 1 kullanılabilir.. */
 
 // skor1 kodları
 function skorArtirici() {
@@ -45,12 +45,16 @@ function skorArtirici() {
 }
 
 const skor1 = skorArtirici();
-
+console.log(skor1());
+console.log(skor1());
 // skor2 kodları
 let skor = 0;
+console.log(skor1());
+console.log(skor1());
 
 function skor2() {
   return skor++;
+  
 }
 
 
@@ -64,12 +68,15 @@ Aşağıdaki takimSkoru() fonksiyonununda aşağıdakileri yapınız:
 Not: Bu fonskiyon, aşağıdaki diğer görevler için de bir callback fonksiyonu olarak da kullanılacak
 */
 
-function takimSkoru(/*Kodunuzu buraya yazınız*/){
-    /*Kodunuzu buraya yazınız*/
+function takimSkoru(){
+    let skor = Math.floor(Math.random()*16+10);
+    return skor;
 }
-
-
-
+/*console.log(takimSkoru());
+console.log(takimSkoru());
+console.log(takimSkoru());
+console.log(takimSkoru());
+console.log(takimSkoru());*/
 
 /* Görev 3: macSonucu() 
 Aşağıdaki macSonucu() fonksiyonununda aşağıdakileri yapınız:
@@ -86,8 +93,19 @@ Aşağıdaki macSonucu() fonksiyonununda aşağıdakileri yapınız:
 }
 */ 
 
-function macSonucu(/*Kodunuzu buraya yazınız*/){
-  /*Kodunuzu buraya yazınız*/
+function macSonucu(takimSkoru,ceyrekSayisi){
+ let skor={
+  "EvSahibi":0,
+  "KonukTakim":0,
+ }
+ for(let i=1; i<=ceyrekSayisi; i++){
+  let evSahibiSkor = takimSkoru();
+  let KonukTakimSkor = takimSkoru();
+
+  skor.EvSahibi = skor.EvSahibi+ evSahibiSkor;
+  skor.KonukTakim += KonukTakimSkor;
+ }
+ return skor;
 }
 
 
@@ -109,10 +127,17 @@ Aşağıdaki periyotSkoru() fonksiyonununda aşağıdakileri yapınız:
   */
 
 
-function periyotSkoru(/*Kodunuzu buraya yazınız*/) {
-  /*Kodunuzu buraya yazınız*/
+function periyotSkoru(takimSkoru) {
+  let skor ={
+    "EvSahibi":takimSkoru(),
+    "KonukTakim":takimSkoru()
+  }
+  return skor;
 
-}
+  }
+  console.log(periyotSkoru(takimSkoru));
+
+
 
 
 /* Zorlayıcı Görev 5: skorTabelasi() 
@@ -146,11 +171,36 @@ MAÇ UZAR ise skorTabelasi(periyotSkoru,takimSkoru,4)
 ] */
 // NOTE: Bununla ilgili bir test yoktur. Eğer logladığınız sonuçlar yukarıdakine benziyor ise tmamlandı sayabilirsiniz.
 
-function skorTabelasi(/*Kodunuzu buraya yazınız*/) {
-  /*Kodunuzu buraya yazınız*/
+function skorTabelasi(periyotSkoru,takımSkoru,ceyrekSayisi) {
+  let skorlar =[];
+  let sonuc ={
+    "EvSahibi":0,
+    "KonukTakim":0,
+  }
+  for(let i=0;i<=ceyrekSayisi; i++) {
+    let skor= periyotSkoru(takimSkoru);
+    let metin = `${1}.Periyot : Ev Sahibi ${skor,EvSahibi} -Konuk Takım ${skor,KonukTakim}`;
+    sonuc.EvSahibi +=skor.EvSahibi;
+    sonuc.KonukTakim+=skor.KonukTakim;
+    skorlar.push(metin);
+  }
+    let i=1;
+    sonuc.EvSahibi=sonuc.KonukTakim;
+    while(sonuc.EvSahibi==sonuc.KonukTakim){
+    let skor=periyotSkoru(takimSkoru);
+    let metin=`${i}1.Uzatma:Ev Sahibi:${sonuc.EvSahibi}-Konuk Takim ${sonuc.KonukTakim}`;
+    
+    sonuc.EvSahibi += skor.EvSahibi;
+    sonuc.KonukTakim += skor.KonukTakim;
+    skorlar.push(metin);
+    i++;
 }
 
+  skorlar.push (`Maç Sonucu : Ev Sahibi ${sonuc,EvSahibi} -Konuk Takım ${sonuc,KonukTakim}`);
 
+  return skorlar;
+  
+}
 
 
 /* Aşağıdaki satırları lütfen değiştirmeyiniz*/
